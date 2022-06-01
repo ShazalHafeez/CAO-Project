@@ -14,7 +14,6 @@
 //#define CAMERA_MODEL_M5STACK_PSRAM
 //#define CAMERA_MODEL_M5STACK_WIDE
 #define CAMERA_MODEL_AI_THINKER
-#define Relay 2
 #define Red 13
 #define Green 12
 #include "camera_pins.h"
@@ -30,10 +29,8 @@ long prevMillis=0;
 int interval = 5000;
 
 void setup() {
-  pinMode(Relay,OUTPUT);
   pinMode(Red,OUTPUT);
   pinMode(Green,OUTPUT);
-  digitalWrite(Relay,LOW);
   digitalWrite(Red,HIGH);
   digitalWrite(Green,LOW);
   
@@ -103,7 +100,7 @@ void setup() {
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    delay(5000);
     Serial.print(".");
   }
   Serial.println("");
@@ -114,13 +111,13 @@ void setup() {
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());
   Serial.println("' to connect");
+  delay(5000);
 }
 
 void loop() {
   if(matchFace==true && activateRelay==false)
   {
     activateRelay=true;
-    digitalWrite(Relay,HIGH);
     digitalWrite(Green,HIGH);
     digitalWrite(Red,LOW);
     prevMillis=millis();
@@ -129,7 +126,6 @@ void loop() {
     {
       activateRelay=false;
       matchFace=false;
-      digitalWrite(Relay,LOW);
       digitalWrite(Green,LOW);
       digitalWrite(Red,HIGH);
       }
